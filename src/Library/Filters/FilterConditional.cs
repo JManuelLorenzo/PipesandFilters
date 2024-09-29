@@ -1,15 +1,16 @@
 using System;
 using System.Drawing;
 using CompAndDel;
+using Ucu.Poo.Cognitive;
 
 namespace CompAndDel.Filters;
 
 public class FilterConditional : IFilter
 {
-    private CognitiveAPI _cognitiveApi;
+    private CognitiveFace _cognitiveApi;
     public bool Resultado { get; private set; }
 
-    public FilterConditional(CognitiveAPI cognitiveApi)
+    public FilterConditional(CognitiveFace cognitiveApi)
     {
         _cognitiveApi = cognitiveApi;
     }
