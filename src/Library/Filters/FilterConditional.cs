@@ -16,9 +16,10 @@ public class FilterConditional : IFilter
     }
 
     // Implementación del filtro que revisa si la imagen contiene una cara
-    public void Filter(Image image)
+    public void Filter(Picture image)
     {
         // Utilizar la API Cognitiva para reconocer la imagen
+        
         Resultado = _cognitiveApi.Recognize(image);
     }
 }
