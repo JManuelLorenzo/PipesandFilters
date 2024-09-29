@@ -14,9 +14,14 @@ namespace CompAndDel
 
             PictureProvider provider = new PictureProvider();
             IPicture picture = provider.GetPicture(@"luke.jpg");
-
-            IPicture result = pipeSerial1.Send(picture);
-            provider.SavePicture(result, @"luke1.jpg");
+            
+            IPicture result3 = pipeSerial1.Send(picture);
+            provider.SavePicture(result3, @"luke1.jpg");
+            IPicture result2 = pipeSerial2.Send(picture);
+            provider.SavePicture(result2, @"luke2.jpg");
+            IPicture result1 = pipeNull.Send(picture);
+            provider.SavePicture(result1, @"luke3.jpg");
+            // Completar el de Twitter.
         }
     }
 }
