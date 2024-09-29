@@ -1,6 +1,7 @@
 ﻿using System;
 using CompAndDel.Pipes;
 using CompAndDel.Filters;
+using Ucu.Poo.Twitter;
 
 namespace CompAndDel
 {
@@ -14,13 +15,18 @@ namespace CompAndDel
 
             PictureProvider provider = new PictureProvider();
             IPicture picture = provider.GetPicture(@"luke.jpg");
+            TwitterImage twitter = new TwitterImage();
+            
             
             IPicture result3 = pipeSerial1.Send(picture);
-            provider.SavePicture(result3, @"luke1.jpg");
+            provider.SavePicture(result3, @"luke3.jpg");
+            Console.WriteLine(twitter.PublishToTwitter("equipo5N1foto3", @"luke3.jpg"));
             IPicture result2 = pipeSerial2.Send(picture);
             provider.SavePicture(result2, @"luke2.jpg");
+            Console.WriteLine(twitter.PublishToTwitter("equipo5N1foto2", @"luke2.jpg"));
             IPicture result1 = pipeNull.Send(picture);
-            provider.SavePicture(result1, @"luke3.jpg");
+            provider.SavePicture(result1, @"luke1.jpg");
+            Console.WriteLine(twitter.PublishToTwitter("equipo5N1foto1", @"luke1.jpg"));
             // Completar el de Twitter.
         }
     }
