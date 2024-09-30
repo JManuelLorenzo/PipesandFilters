@@ -1,25 +1,40 @@
 using System;
-using System.Drawing;
+using System.IO;
 using CompAndDel;
 using Ucu.Poo.Cognitive;
 
-namespace CompAndDel.Filters;
-
-public class FilterConditional : IFilter
+namespace CompAndDel.Filters
 {
-    private CognitiveFace _cognitiveApi;
-    public bool Resultado { get; private set; }
-
-    public FilterConditional(CognitiveFace cognitiveApi)
+    public class FilterConditional : IFilter
     {
-        _cognitiveApi = cognitiveApi;
-    }
+        private CognitiveFace _cognitiveApi;
+        private PictureProvider _pictureProvider; // Usar PictureProvider para guardar la imagen
+        public bool Resultado { get; private set; }
 
-    // Implementación del filtro que revisa si la imagen contiene una cara
-    public void Filter(Picture image)
-    {
-        // Utilizar la API Cognitiva para reconocer la imagen
-        
-        Resultado = _cognitiveApi.Recognize(image);
+        public FilterConditional(CognitiveFace cognitiveApi)
+        {
+            _cognitiveApi = cognitiveApi;
+            _pictureProvider = new PictureProvider(); // Instanciar PictureProvider
+        }
+
+        public IPicture Filter(IPicture picture)
+        {
+            // Generar un nombre único para el archivo temporal
+            string tempFilePath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.jpg");
+
+            // Guardar la imagen en un archivo temporal usando PictureProvider
+            _pictureProvider.SavePicture(picture, tempFilePath);
+
+            // Usar la ruta del archivo para la API de reconocimiento facial
+            _cognitiveApi.Recognize(tempFilePath);
+
+            // Verificar si se encontraron caras o gafas
+            Resultado = _cognitiveApi.FaceFound || _cognitiveApi.GlassesFound;
+
+            // Eliminar el archivo temporal después de su uso
+            File.Delete(tempFilePath);
+
+            return picture;  // Devuelve la imagen procesada o sin procesar según el filtro
+        }
     }
 }

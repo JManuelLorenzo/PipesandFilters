@@ -27,6 +27,7 @@ namespace CompAndDel
             IPicture result1 = pipeNull.Send(picture);
             provider.SavePicture(result1, @"luke1.jpg");
             Console.WriteLine(twitter.PublishToTwitter("equipo5N1foto1", @"luke1.jpg"));
+            Console.WriteLine(provider.GetPicture(@"luke.jpg"));
             // Completar el de Twitter.
         }
     }
